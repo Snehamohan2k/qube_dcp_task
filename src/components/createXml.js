@@ -3,7 +3,6 @@ function createXml(fileData) {
     const xml = parser.parseFromString("<PackingList></PackingList>", "application/xml");
     const filesNode = xml.getElementsByTagName("PackingList")[0];
     const assetListNode = xml.createElement("AssetList");
-    // Iterate over each file data object and create a new <Asset> node
     for (let i = 0; i < fileData.length; i++) {
       const file = fileData[i];
       const assetNode = xml.createElement("Asset");
@@ -25,7 +24,6 @@ function createXml(fileData) {
       assetListNode.appendChild(assetNode);
     }
     filesNode.appendChild(assetListNode);
-    // Serialize the XML document to a string and return it
     const serializer = new XMLSerializer();
     return serializer.serializeToString(xml);
   }
