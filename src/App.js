@@ -12,7 +12,7 @@ function App() {
     const fileHandle = await files.getFileHandle("PackagingList.xml", { create: true });
     const fileHandleMap = await files.getFileHandle("ASSETmap.xml", { create: true });
        const writableStreamMap = await fileHandleMap.createWritable();
-       const writableStream = await fileHandle.createWritable();
+  const writableStream = await fileHandle.createWritable();
 const fileData = [];
 
 await getFilePaths(files);
@@ -22,13 +22,12 @@ async function getFilePaths(files, path ='') {
   for await (const entry of files2) {
     if (entry.kind === 'file') {
       const file = await entry.getFile();
-      //console.log(file.type);
       const fileName = file.name;
       const filePath = path ? `${path}/${fileName}` : fileName;
-      console.log(fileName.split('.').pop());
-     
-      const { uuid, name, hash, size,type} = await hashFile(file);
+     // console.log(fileName.split('.').pop());
 
+      const { uuid, name, hash, size,type} = await hashFile(file);
+   //   const filetype=file.type;
       fileData.push({ uuid, name, hash, size, type, path: filePath });
 
     } else if (entry.kind === 'directory') {
@@ -53,7 +52,11 @@ async function getFilePaths(files, path ='') {
   
 
   const hashFile = async (file) => {
-const type=file.type
+  //const type=file.type;
+  console.log("File Name"+file.name);
+  const type=file.type;
+  console.log("File Type"+type);
+  
     var sha1 = CryptoJS.algo.SHA1.create();
     var chunkSize = 1024 * 1024; // 1 MB
     var hash;
@@ -81,31 +84,25 @@ const type=file.type
     }
   
     hash = sha1.finalize().toString(CryptoJS.enc.Base64);
-    console.log(hash);
+   // console.log(hash);
     const uuid = uuidv4();
     //const type = file.type;
     const size = file.size;
     //console.log(type);
-    return { uuid,name: file.name, size, hash ,type};
+    return { uuid,name: file.name, hash ,size,type};
   };
   
   return (
     <div>
          <header style={{ backgroundColor: 'teal', color: 'white', height: '150px',  width: '100%' }}>
-       {/* <h1 style={{ fontSize: '2rem',fontFamily:'', marginLeft: '1rem' }}> */}
         
        <img src="https://d2tawjvx8xg9xv.cloudfront.net/qw/qwlogo-sfer.svg" alt="" width="350" height="150" ></img>
       
-      {/* </h1> */}
        </header>
        <h2 style={{color:"White", fontFamily:"serif"}}>Upload a Folder to generate PKL and ASSETMAP</h2>
-      {/* Input field for uploading files */}
       <button onClick={handleUpload}> Choose a file</button>
-      {/* <input type="file" webkitdirectory="" directory multiple onChange={handleUpload} /> */}
-  
-      {/* Display the list of file information */}
       {hashes.map((file, index) => (
-        <div key={index}>
+        <div style={{color:"white"}} key={index}>
           <div>UUID: {file.uuid}</div>
           <div>Path: {file.path}</div>
           <div>Name: {file.name}</div>

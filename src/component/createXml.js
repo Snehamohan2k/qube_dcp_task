@@ -9,7 +9,8 @@ function createXml(fileData,directoryName,directoryuuid) {
   const offsetSign = offsetHours > 0 ? "-" : "+";
   const offsetString = `${offsetSign}${Math.abs(offsetHours).toString().padStart(2, "0")}:${offsetMinutesRemainder.toString().padStart(2, "0")}`;
   const issuedate = now.toISOString().substr(0, 19) + offsetString;
-    const directoryuuidNode = xml.createElement("Id");
+    
+  const directoryuuidNode = xml.createElement("Id");
     directoryuuidNode.textContent="urn:uuid:"+directoryuuid;
     const AnnotationNode = xml.createElement("AnnotationText");
     AnnotationNode.textContent=directoryName;
